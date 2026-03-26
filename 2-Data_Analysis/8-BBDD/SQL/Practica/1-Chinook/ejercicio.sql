@@ -94,3 +94,75 @@ e.FirstName || " " || e.LastName as FullName,
 i.InvoiceId
 from employees e
 inner join invoices i on e.Title = "Sales Support Agent"
+
+--3
+SELECT
+c.firstname || " " || c.lastname AS ClientName,
+c.country AS ClientCountry,
+e.firstname || " " || e.lastname AS EmployeeName,
+SUM(i.total) as Total
+FROM invoices i
+INNER JOIN customers c ON i.customerid = c.customerid
+INNER JOIN employees e ON c.supportrepid = e.employeeid
+GROUP BY ClientName 
+
+
+--4
+SELECT i.invoiceid,
+i.trackid,
+t.name AS SongName
+FROM invoice_items i
+INNER JOIN tracks t ON i.trackid = t.trackid
+
+--5
+SELECT
+t.Name,
+m.Name,
+a.title,
+g.Name
+FROM tracks t
+INNER JOIN albums a ON t.albumid = a.albumid
+INNER JOIN genres g ON t.genreid = g.GenreId
+INNER JOIN media_types m ON t.MediaTypeId = m.MediaTypeId
+
+--6
+SELECT
+pt.playlistid,
+p.name AS PlaylistName,
+COUNT(pt.trackid) as N_Songs
+FROM playlist_track pt
+INNER JOIN playlists p ON p.PlaylistId = pt.playlistid
+GROUP BY p.PlaylistId 
+
+--7
+SELECT
+e.firstname || " " || e.lastname AS FullName,
+SUM(i.total) as TotalSales
+FROM invoices i
+INNER JOIN customers c ON i.customerid = c.customerid
+INNER JOIN employees e ON c.supportrepid = e.employeeid
+GROUP BY FullName
+
+--8
+SELECT
+e.firstname || " " || e.lastname AS EmployeeName,
+SUM(i.total)
+FROM invoices i
+INNER JOIN customers c ON i.customerid = c.customerid
+INNER JOIN employees e ON c.supportrepid = e.employeeid
+WHERE strftime("%Y", i.invoicedate) = "2009"
+GROUP BY EmployeeName
+
+--9
+SELECT
+ar.artistid,
+ar.Name as ArtistName,
+SUM(i.total) AS TotalSales
+FROM invoices i
+INNER JOIN invoice_items ii ON i.invoiceid = ii.invoiceid
+INNER JOIN tracks t ON ii.trackid = t.trackid
+INNER JOIN albums a ON t.albumid = a.albumid
+INNER JOIN artists ar ON a.artistid = ar.ArtistId
+GROUP BY a.ArtistId
+ORDER BY TotalSales DESC
+LIMIT 3

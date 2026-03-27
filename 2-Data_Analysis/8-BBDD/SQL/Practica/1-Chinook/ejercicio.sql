@@ -19,7 +19,7 @@ from customers
 where Country != 'USA'
 
 --5
-SELECT FirstName || " " || LastName as FullName,
+SELECT concat(FirstName, " ", LastName) as FullName,
 City || ", " || State || ", " || Country as Location,
 Email
 FROM employees

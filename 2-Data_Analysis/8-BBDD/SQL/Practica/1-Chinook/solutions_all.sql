@@ -111,7 +111,7 @@ SELECT
 country,
 COUNT(customerid)
 FROM customers
-WHERE country IN ("Spain","Brazil")
+WHERE country IN ("Spain","Brazil") 
 GROUP BY 1
 
 --ex15
